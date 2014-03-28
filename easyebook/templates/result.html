@@ -1,0 +1,71 @@
+{% include 'header.html' %}
+<div class="container">
+    <a  href="/"><img src="/static/img/logo.png" width="950px" height="250px" class="img-responsive"></a>
+    {% if books %}
+        <p class="lead">根据关键词「<strong>{{ query }}</strong>」共找到「<strong>{{ num }}</strong>」本电子书</p>
+        {% for book in books%}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    {% if book.source == 'douban' %}
+                        <a href="http://read.douban.com{{ book.url }}" target="_blank">
+                    {% elif book.source == 'duokan' %}
+                        <a href="http://www.duokan.com{{ book.url }}" target="_blank">
+                    {% elif book.source == 'ikandou' %}
+                        <a href="http://ikandou.com{{ book.url }}" target="_blank">
+                    {% else %}
+                        <a href="{{ book.url }}" target="_blank">
+                    {% endif %}
+                    <h2 class="panel-title">{{ book.name }}</h2>
+                    </a>
+                    <br>
+                    <p class="lead">
+                        <span class="label label-danger">￥{{ book.price }}</span>
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        {% if book.image_url %}
+                            <img src="{{ book.image_url }}" class="img-rounded" alt="{{ book.name }}">
+                        {% else %}
+                            <img data-src="holder.js/140x140" class="img-rounded" alt="140x140" style="width: 140px; height: 140px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACMCAYAAACuwEE+AAADHklEQVR4Xu3XQU7qYABGUR2xMZbNmpgz0mDSiKTQXi2VkvOG8kl99z9p4f14PH68+afAzALvwMwsZfZVABgQUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLGBgGUgFgUi5jYBhIBYBJuYyBYSAVACblMgaGgVQAmJTLePNgDofD1ynu9/vR0xx7ffjZ8Au3fnfsDde+3rMR3TSYy4MfO/Sx168PfArA5YGtfb1nw3L+ezYN5vwfuHXg55/vdru30+n04w70FzD/cb1nQwPMxSNtwHQJ7fpxtzZQYBYucO8zyvkxNXVHGXt97M40/NlLX2/hHA9/u5e+w1zXmwPo3mNn6pH02+s9/JQXvMDLgrl1R5hzx6l3mLEPxsOH8KnrLXiWq7zVpsHM+Xp875vS9dfqqc8wS19vlRNe+CKbBrNwC283owAwMyKZfBcAhoZUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TIGhoFUAJiUyxgYBlIBYFIuY2AYSAWASbmMgWEgFQAm5TL+BPn285fsB0YAAAAAAElFTkSuQmCC">
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-10">
+                        <p>书名：{{ book.name }}</p>
+                        <p>作者：{{ book.author }}</p>
+                        <p>评分：{{ book.rate }}</p>
+                        <p> 评价人数：{{ book.rate_num }}</p>
+                        <p>来源：<span class="label label-info">{{ book.source }}</span></p>
+                        <p>更新时间：{{ book.update_time }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="lead">根据关键词「<strong>{{ query }}</strong>」没有找到电子书 <a href="/">返回首页</a></p>
+    {% endif %}
+    {% if num > 5 %}
+        <ul class="pagination pagination-lg">
+            {% if books.has_previous %}
+                <li><span><a href="?q={{ query }}&page={{ books.previous_page_number }}">&laquo;</a></span></li>
+            {% else %}
+                <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+            {% for p in page_range %}
+                {% ifequal p books.number %}
+                    <li class="active">
+                        {% else %}
+                    <li>
+                {% endifequal %}
+            <span><a href="?q={{ query }}&page={{ p }}">{{ p }}</a></span>
+            </li>
+            {% endfor %}
+            {% if books.has_next %}
+                <li><span><a href="?q={{ query }}&page={{ books.next_page_number }}">&raquo;</a></span></li>
+            {% else %}
+                <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>
+{% include 'footer.html' %}

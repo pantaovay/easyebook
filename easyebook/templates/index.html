@@ -1,0 +1,17 @@
+{% include 'header.html' %}
+<div class="container">
+    <div style="text-align: center;">
+        <img src="/static/img/logo.png" width="950px" height="250px" class="img-responsive">
+        <blockquote>
+            <p>书籍是人类进步的阶梯！</p>
+            <small>高尔基</small>
+        </blockquote>
+    </div>
+    <div style="max-width: 600px; margin: 50px auto;">
+        <form class="form-inline" action="/search/">
+            <input class="form-control input-large" type="text" placeholder="输入关键词" style="max-width: 500px" name="q" id="search" required>
+            <button type="submit" class="btn btn-primary btn-large">Go!</button>
+        </form>
+    </div>
+</div>
+{% include 'footer.html' %}

@@ -1,0 +1,42 @@
+name: easyebook
+version: 2
+libraries:
+  - name: "django"
+    version: "1.5"
+handlers:
+  - url: /static/
+    static_path: static
+  - url: /robots.txt
+    static_path: robots.txt
+  - url: /favicon.ico
+    static_path: favicon.ico
+  - url: /static/
+    gzip: on
+cron:
+  - description: 更新页数
+    url: spider/total
+    schedule: 0 2 * * *
+  - description: 入库amazon
+    url: task/amazon
+    schedule: 5 2 * * *
+  - description: 入库duokan
+    url: task/doukan
+    schedule: 5 2 * * *
+  - description: 入库douban
+    url: task/douban
+    schedule: 5 2 * * *
+  - description: 入库ikandou
+    url: task/ikandou
+    schedule: 5 2 * * *
+  - description: 解析book amazon
+    url: task/amazon?inpage
+    schedule: 5 3 * * *
+  - description: 解析book duokan
+    url: task/doukan?inpage
+    schedule: 5 3 * * *
+  - description: 解析book douban
+    url: task/douban?inpage
+    schedule: 5 3 * * *
+  - description:  解析book ikandou
+    url: task/ikandou?inpage
+    schedule: 5 3 * * *

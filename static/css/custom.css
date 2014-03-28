@@ -1,0 +1,9 @@
+.price {
+    background-color: #DFB5B4;
+}
+.book-detail {
+    margin: 10px;
+}
+ul.book-detail > li {
+    margin: 10px;
+}
